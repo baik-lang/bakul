@@ -1,3 +1,4 @@
+extern utils;
 use std::process;
 
 use clap::{clap_app, crate_version};
