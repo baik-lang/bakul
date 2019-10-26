@@ -1,9 +1,9 @@
-extern utils;
+mod utils;
 use std::process;
 
 use clap::{clap_app, crate_version};
 use duma::download::{ftp_download, http_download};
-use duma::utils;
+use duma::utils as duma_utils;
 use failure::{format_err, Fallible};
 
 fn main() {
@@ -33,7 +33,7 @@ fn run() -> Fallible<()> {
     )
     .get_matches_safe().unwrap_or_else(|e| e.exit());
 
-    let url = utils::parse_url(
+    let url = duma_utils::parse_url(
         args.value_of("URL")
             .ok_or_else(|| format_err!("missing URL argument"))?,
     )?;
@@ -43,6 +43,6 @@ fn run() -> Fallible<()> {
     match url.scheme() {
         "ftp" => ftp_download(url, quiet_mode, file_name),
         "http" | "https" => http_download(url, &args, crate_version!()),
-        _ => utils::gen_error(format!("unsupported url scheme '{}'", url.scheme())),
+        _ => duma_utils::gen_error(format!("unsupported url scheme '{}'", url.scheme())),
     }
 }

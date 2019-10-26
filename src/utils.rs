@@ -8,7 +8,7 @@ use flate2::Compression;
 use tar::Archive;
 // use std::env;
 
-fn unzip_tar_gz(input_path: &String, output_path: &String) -> Result<(), std::io::Error> {
+pub fn unzip_tar_gz(input_path: &String, output_path: &String) -> Result<(), std::io::Error> {
     let     file    = File     ::open(&input_path)?;
     let     decoder = GzDecoder::new(file);
     let mut archive = Archive  ::new(decoder);
@@ -16,7 +16,7 @@ fn unzip_tar_gz(input_path: &String, output_path: &String) -> Result<(), std::io
     Ok(())
 }
 
-fn zip_tar_gz(input_path: &String, output_path: &String) -> Result<(), std::io::Error> {
+pub fn zip_tar_gz(input_path: &String, output_path: &String) -> Result<(), std::io::Error> {
     let     file    = File::create(&output_path)?;
     let     encoder = GzEncoder::new(file, Compression::best());
     let mut tar     = tar::Builder::new(encoder);
